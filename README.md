@@ -24,5 +24,5 @@ fiple.render(
 ```
 
 # TODO:
-1. Classes
+1. Classes (will be in v1.1)
 2. Events
