@@ -5,7 +5,7 @@ Mini library for creating websites
 [See the live demo here](https://marshallovski.github.io/fiple/demo/)
 
 # Features
-* Lightweight (uses under 1MB ~~of RAM~~ and weighs **3kB unminified**)
+* Lightweight (uses under 1MB ~~of RAM~~ and weighs **2.59kB unminified**)
 * Templating
 * Props for elements
 * Built-in functions for styling text (`bold()` and `italics()`)
