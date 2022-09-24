@@ -2,7 +2,7 @@
 Mini library for creating websites
 
 # DEMO
-[See the live demo here](https://marshallovski.github.io/fiplejs/)
+[See the live demo here](https://marshallovski.github.io/fiple/demo/)
 
 # Features
 * Lightweight (uses under 1MB ~~of RAM~~ and weighs **3kB unminified**)
