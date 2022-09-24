@@ -25,4 +25,4 @@ fiple.render(
 
 # TODO:
 1. Classes (will be in v1.1)
-2. Events
+2. Events (will be in v1.1)
