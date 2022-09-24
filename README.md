@@ -1,6 +1,9 @@
 # fiple.js
 Mini library for creating websites
 
+# DEMO
+[See the live demo here](https://marshallovski.github.io/fiplejs/)
+
 # Features
 * Lightweight (uses under 1MB ~~of RAM~~ and weighs **3kB unminified**)
 * Templating
@@ -22,7 +25,3 @@ fiple.render(
   }]
 );
 ```
-
-# TODO:
-1. Classes (will be in v1.1)
-2. Events (will be in v1.1)
