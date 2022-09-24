@@ -2,8 +2,11 @@
  * fiple.js - Mini library for creating websites
  * Copyright (c) 2022-present marshallovski
  * MIT Licensed
- * Last updated: 23.09.2022
+ * Last updated: 24.09.2022
+ * @version 1.1.2
  */
+
+'use strict';
 
 const fiple = {
   root: document.body,
@@ -12,9 +15,10 @@ const fiple = {
   },
   init(ctx) {
     if (!this.root)
-      return this.htmlError('You must provide the root element.<br><a class="fiple_link" href="https://marshallovski.github.io/fiplejs/docs/?err=missingRootElem" target="_blank">Learn more</a>');
+      return this.htmlError('You must provide the root element.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?err=missingRootElem" target="_blank">Learn more</a>');
 
-    if (!ctx[0]) return this.htmlError('Render tree is empty.<br><a class="fiple_link" href="https://marshallovski.github.io/fiplejs/docs/?err=RtreeEmpty" target="_blank">Learn more</a>');
+    if (!ctx[0] || ctx[0].length === 0)
+      return this.htmlError('Render tree is empty.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?err=RtreeEmpty" target="_blank">Learn more</a>');
   },
   render(_ctx, _params = {}, _props = {}) {
     this.init(_ctx); // initialization, checking for root elements, etc.
@@ -30,6 +34,16 @@ const fiple = {
       if (el.style) // checking for inline element styles
         Object.entries(el.style)
           .forEach(e => elem.style[e[0]] = e[1]); // applying styles to element
+
+      if (el.class) // checking for classes
+        Object.entries(el.class)
+          .forEach(cl => elem.classList.add(cl[1])); // adding classes (ex.: {...class: ['test', 'lol', 'hehe'] })
+
+      if (el.events) // checking for events
+        Object.entries(el.events)
+          .forEach(ev => elem.addEventListener(ev[0], ev[1])); // adding event(s) to element
+
+      if (el.id) elem.id = el.id; // adding an "id" attr to element, if present
 
       elem.innerHTML = el.content; // adding content to element
       this.root.append(elem); // adding element to root element
