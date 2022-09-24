@@ -1,5 +1,6 @@
 fiple.root = document.getElementById('approot');
 const italic = fiple.italic;
+let clickTimes = 0;
 
 fiple.render(
   [{
@@ -14,15 +15,28 @@ fiple.render(
     }
   },
   {
+    elem: 'button',
+    content: 'Click me please...',
+    id: 'clickBtn',
+    style: { marginTop: '1em' },
+    events: {
+      click: () => {
+        clickTimes++;
+        document.getElementById('clickBtn').textContent = `${clickTimes} times clicked!`;
+      }
+    }
+  },
+  {
     elem: 'p',
+    class: ['heheClass', 'test', 'haha'],
+    id: 'testID',
     content: italic('Date now: {date}'),
     style: {
       color: '#999',
-      fontFamily: 'JetBrains Mono',
       fontSize: '10px',
       marginTop: '1.5em'
     }
   }],
-  params = { component: 'Heading' },
+  params = { component: 'Home' },
   props = { name: 'Jack', date: new Date(Date.now()) }
 );
