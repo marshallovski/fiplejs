@@ -10,6 +10,8 @@ Mini library for creating websites
 * Props for elements
 * Built-in functions for styling text (`bold()` and `italics()`)
 * Styles
+* Events
+* Applying classes, IDs to elements
 ## and more!
 
 # Examples
