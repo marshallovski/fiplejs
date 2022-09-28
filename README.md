@@ -27,3 +27,6 @@ fiple.render(
   }]
 );
 ```
+
+# TODO:
+1. Reactivity
