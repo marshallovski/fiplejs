@@ -8,7 +8,6 @@ Mini library for creating websites
 * Lightweight (uses under 1MB ~~of RAM~~ and weighs **1.5kB minified**)
 * Templating
 * Props for elements
-* Built-in functions for styling text (`bold()` and `italics()`)
 * Styles
 * Events
 * Applying classes, IDs to elements
