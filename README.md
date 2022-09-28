@@ -18,8 +18,6 @@ Mini library for creating websites
 *creating an h1 element with "Hello, World!"*
 
 ```js
-fiple.root = document.getElementById('approot');
-
 fiple.render(
   [{
     elem: 'h1',
