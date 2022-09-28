@@ -1,9 +1,9 @@
 /*!
  * fiple.js - Mini library for creating websites
- * Copyright (c) 2022-present marshallovski
+ * Copyright (c) 2022 marshallovski
  * MIT Licensed
- * Last updated: 24.09.2022
- * @version 1.1.2
+ * Last updated: 28.09.2022
+ * @version 1.1.3
  */
 
 'use strict';
@@ -15,10 +15,17 @@ const fiple = {
   },
   init(ctx) {
     if (!this.root)
-      return this.htmlError('You must provide the root element.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?article=missingRootElem" target="_blank">Learn more</a>');
+      return this.htmlError('You must provide the root element.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?err=missingRootElem" target="_blank">Learn more</a>');
 
     if (!ctx[0] || ctx[0].length === 0)
-      return this.htmlError('Render tree is empty.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?article=RtreeEmpty" target="_blank">Learn more</a>');
+      return this.htmlError('Render tree is empty.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?err=RtreeEmpty" target="_blank">Learn more</a>');
+  },
+  createComponent(componentName) {
+    class CustomElement extends HTMLElement {
+      connectedCallback() { }
+    }
+
+    return customElements.define(componentName, CustomElement);
   },
   render(_ctx, _params = {}, _props = {}) {
     this.init(_ctx); // initialization, checking for root elements, etc.
@@ -28,7 +35,7 @@ const fiple = {
       const re = /{([^}]+)?}/g; // regexp for {} in element content
       let match;
 
-      while (match = re.exec(el.content)) // searching for variables in element content
+      while (match = re.exec(el.content))  // searching for variables in element content
         el.content = el.content.replace(match[0], _props[match[1]]); // replacing. example: "hello, {var}" will be replaced on "hello, _props.var"
 
       if (el.style) // checking for inline element styles
@@ -44,16 +51,8 @@ const fiple = {
           .forEach(ev => elem.addEventListener(ev[0], ev[1])); // adding event(s) to element
 
       if (el.id) elem.id = el.id; // adding an "id" attr to element, if present
-
       elem.innerHTML = el.content; // adding content to element
       this.root.append(elem); // adding element to root element
     });
-  },
-  // some utils for something. (actually im don't know where you will use these functions)
-  bold(str) {
-    return `<b>${str}</b>`;
-  },
-  italic(str) {
-    return `<i>${str}</i>`;
   }
 };
