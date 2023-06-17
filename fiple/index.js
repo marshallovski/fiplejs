@@ -4,7 +4,7 @@
  @copyright (c) 2023 marshallovski
  @license MIT
  @version 1.1.5
- Last updated: 17.06.2023
+ * Last updated: 17.06.2023
  */
 
 'use strict';
