@@ -15,10 +15,10 @@ const fiple = {
   },
   init(ctx) {
     if (!this.root)
-      return this.htmlError('You must provide the root element.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?err=missingRootElem" target="_blank">Learn more</a>');
+      return this.htmlError('You must provide the root element.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?article=missingRootElem" target="_blank">Learn more</a>');
 
     if (!ctx[0] || ctx[0].length === 0)
-      return this.htmlError('Render tree is empty.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?err=RtreeEmpty" target="_blank">Learn more</a>');
+      return this.htmlError('Render tree is empty.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?article=RtreeEmpty" target="_blank">Learn more</a>');
   },
   createComponent(componentName) {
     class CustomElement extends HTMLElement {
