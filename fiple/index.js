@@ -1,44 +1,82 @@
 /**
  @name fiple.js
  @description Mini library for creating websites
- @copyright (c) 2023 marshallovski
+ @copyright (c) marshallovski 2025
  @license MIT
- @version 1.1.5
- * Last updated: 17.06.2023
+ @version 1.1.6
+ * Last updated: 28.12.2025
  */
 
 'use strict';
 
-const fiple = {
-  root: document.body,
+class Fiple {
+  constructor(root, disableHTMLErrors) {
+    this.root = root;
+    this.disableHTMLErrors = disableHTMLErrors;
+  }
+
   _htmlError(desc) {
-    document.body.innerHTML = `<style>.fiple_err{width:300px;height:auto;background-color:#333;color:#fff;text-align:center;display:block;margin:auto;font-family:sans-serif;border:2px solid red;border-radius:16px;padding:16px}.fiple_sub{color:#666;font-size:12px;margin-top:1em}.fiple_link{color:#1e90ff;text-decoration:none}.fiple_desc{margin-top:10px}</style><br><div class="fiple_err"><h1>Render Error</h1><p class="fiple_desc">${desc}</p><p class="fiple_sub">Powered by fiple.js</p></div>`;
-  },
+    if (!this.disableHTMLErrors) {
+      const escapeHTML = str => String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/`/g, '&#96;');
+
+      let safeDesc;
+
+      switch (desc) {
+        case 'RtreeEmpty':
+          safeDesc = 'Render tree is empty.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?article=RtreeEmpty" target="_blank">Learn more</a>';
+          break;
+
+        case 'missingRootElem':
+          safeDesc = 'You must provide the root element.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?article=missingRootElem" target="_blank">Learn more</a>';
+          break;
+
+        default:
+          safeDesc = escapeHTML(desc).replace(/\r\n|\r|\n/g, '<br>');
+          break;
+      }
+
+      this.root.innerHTML = `<br><div class="fiple_err"><h1>Render Error</h1><p class="fiple_desc">${safeDesc}</p><p class="fiple_sub">Powered by <a href="https://github.com/marshallovski/fiplejs">fiple.js</a></p></div>`;
+    } else {
+      console.error(desc);
+    }
+  }
+
   _init(ctx) {
-    if (!this.root)
-      return this._htmlError('You must provide the root element.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?article=missingRootElem" target="_blank">Learn more</a>');
+    // checking if this.root is an HTML element
+    if (!this.root || !(this.root instanceof HTMLElement)) return this._htmlError('missingRootElem');
 
     if (!ctx[0] || ctx[0].length === 0)
-      return this._htmlError('Render tree is empty.<br><a class="fiple_link" href="https://marshallovski.github.io/fiple/docs/?article=RtreeEmpty" target="_blank">Learn more</a>');
-  },
+      return this._htmlError('RtreeEmpty');
+  }
+
   render(_ctx, _params = {}, _props = {}) {
     this._init(_ctx); // initialization, checking for root elements, etc.
+    const fragment = document.createDocumentFragment();
 
     _ctx.forEach(el => {
       let elem = document.createElement(el.elem);
-      const re = /<%([^%>]+)?%>/g; // regexp for <% %> in element content
-      let match;
 
-      while (match = re.exec(el.content))  // searching for variables in element content
-        el.content = el.content.replace(match[0], _props[match[1]]); // replacing. example: "hello, {var}" will be replaced on "hello, _props.var"
+      if (typeof el.content === 'string') {
+        const re = /<%([^%>]+)?%>/g; // regexp for <% %> in element content
+        let match;
+
+        while ((match = re.exec(el.content))) { // searching for variables in element content
+          el.content = el.content.replaceAll(match[0], _props[match[1]]); // replacing with value from _props
+        }
+      }
 
       if (el.style) // checking for inline element styles
         Object.entries(el.style)
           .forEach(rule => elem.style[rule[0]] = rule[1]); // applying styles to element
 
       if (el.class) // checking for classes
-        Object.entries(el.class)
-          .forEach(cl => elem.classList.add(cl[1])); // adding classes (ex.: {...class: ['test', 'lol', 'hehe'] })
+        el.class.forEach(cl => elem.classList.add(cl)); // adding classes (ex.: {...class: ['test', 'lol', 'hehe'] })
 
       if (el.events) // checking for events
         Object.entries(el.events)
@@ -46,18 +84,12 @@ const fiple = {
 
       if (el.id) elem.id = el.id; // adding an "id" attr to element, if present
       if (el.content) elem.innerHTML = el.content; // adding content to element
-      this.root.append(elem); // adding element to root element
-
-      const mutationObserver = new MutationObserver(mutation => { });
-
-      mutationObserver.observe(this.root, {
-        attributes: false,
-        characterData: true,
-        childList: false,
-        subtree: false,
-        attributeOldValue: false,
-        characterDataOldValue: true
-      });
+      
+      fragment.appendChild(elem); // add to fragment
     });
+
+    this.root.appendChild(fragment); // append all elements at once
   }
 };
+
+export default Fiple;
