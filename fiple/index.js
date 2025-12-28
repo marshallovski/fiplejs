@@ -55,7 +55,7 @@ class Fiple {
       return this._htmlError('RtreeEmpty');
   }
 
-  render(_ctx, _params = {}, _props = {}) {
+ async render(_ctx, _params = {}, _props = {}) {
     this._init(_ctx); // initialization, checking for root elements, etc.
     const fragment = document.createDocumentFragment();
 
