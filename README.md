@@ -5,13 +5,13 @@ Mini library for creating websites
 [See the live demo here](https://marshallovski.github.io/fiple/demo/)
 
 # Features
-* Lightweight (uses under 1MB ~~of RAM~~ and weighs **1.8kB minified**)
+* Lightweight (weighs **1.8kB** minified)
 * Templating
 * Props for elements
 * Styles
 * Events
 * Applying classes, IDs to elements
-## and more!
+* **and more!**
 
 # Examples
 *creating an h1 element with "Hello, World!"*
