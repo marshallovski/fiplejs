@@ -5,7 +5,7 @@ Mini library for creating websites
 [See the live demo here](https://marshallovski.github.io/fiple/demo/)
 
 # Features
-* Lightweight (weighs **1.6kB** minified)
+* Lightweight (weighs **1.9kB** minified)
 * Templating
 * Props for elements
 * Styles
