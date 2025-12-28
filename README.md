@@ -11,6 +11,7 @@ Mini library for creating websites
 * Styles
 * Events
 * Applying classes, IDs to elements
+* Child elements for parent element
 * **and more!**
 
 # Docs
@@ -26,6 +27,48 @@ fiple.render(
     content: 'Hello, World!'
   }]
 );
+```
+
+*creating a small page, with classes, inline styles, container, title, text and colored link*
+```js
+await fiple.render([
+            {
+                elem: 'div',
+                child: [
+                    {
+                        elem: 'h1',
+                        class: ['container-title'],
+                        content: 'Big title!'
+                    },
+                    {
+                        elem: 'p',
+                        class: ['container-text'],
+                        content: 'ghost under the umbrella',
+                        child: [
+                            {
+                                elem: 'a',
+                                href: 'https://open.spotify.com/track/58QIJpweGziQ4fg2jWHxnW',
+                                target: '_blank',
+                                style: {
+                                    textDecoration: 'none',
+                                    color: 'inherit'
+                                },
+                                content: ' - listen on ',
+                                child: [
+                                    {
+                                        elem: 'span',
+                                        style: {
+                                            color: '#1ed760'
+                                        },
+                                        content: 'Spotify'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]);
 ```
 
 # TODO:
