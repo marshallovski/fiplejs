@@ -3,7 +3,7 @@
  @description Mini library for creating websites
  @copyright (c) marshallovski 2025
  @license MIT
- @version 1.1.6
+ @version 1.1.7
  * Last updated: 28.12.2025
  */
 
@@ -59,33 +59,53 @@ class Fiple {
     this._init(_ctx); // initialization, checking for root elements, etc.
     const fragment = document.createDocumentFragment();
 
-    _ctx.forEach(el => {
-      let elem = document.createElement(el.elem);
+    const createFromSpec = spec => {
+      const elNode = document.createElement(spec.elem);
 
-      if (typeof el.content === 'string') {
+      if (typeof spec.content === 'string') {
         const re = /<%([^%>]+)?%>/g; // regexp for <% %> in element content
         let match;
-
-        while ((match = re.exec(el.content))) { // searching for variables in element content
-          el.content = el.content.replaceAll(match[0], _props[match[1]]); // replacing with value from _props
+        while ((match = re.exec(spec.content))) {
+          spec.content = spec.content.replaceAll(match[0], _props[match[1]]);
         }
       }
 
-      if (el.style) // checking for inline element styles
-        Object.entries(el.style)
-          .forEach(rule => elem.style[rule[0]] = rule[1]); // applying styles to element
+      if (spec.style)
+        Object.entries(spec.style).forEach(rule => elNode.style[rule[0]] = rule[1]);
 
-      if (el.class) // checking for classes
-        el.class.forEach(cl => elem.classList.add(cl)); // adding classes (ex.: {...class: ['test', 'lol', 'hehe'] })
+      if (spec.class)
+        spec.class.forEach(cl => elNode.classList.add(cl));
 
-      if (el.events) // checking for events
-        Object.entries(el.events)
-          .forEach(ev => elem.addEventListener(ev[0], ev[1])); // adding event(s) to element
+      if (spec.events)
+        Object.entries(spec.events).forEach(ev => elNode.addEventListener(ev[0], ev[1]));
 
-      if (el.id) elem.id = el.id; // adding an "id" attr to element, if present
-      if (el.content) elem.innerHTML = el.content; // adding content to element
-      
-      fragment.appendChild(elem); // add to fragment
+      if (spec.id) elNode.id = spec.id;
+      if (spec.content) elNode.innerHTML = spec.content;
+
+      // set remaining simple attributes (like src, alt, title, value, etc.)
+      Object.entries(spec).forEach(([k, v]) => {
+        if (["elem", "style", "class", "events", "id", "content", "child"].includes(k)) return;
+        try {
+          elNode.setAttribute(k, v);
+        } catch {
+          // ignore attributes that can't be set
+        }
+      });
+
+      // recursive child handling
+      if (spec.child && Array.isArray(spec.child)) {
+        spec.child.forEach(childSpec => {
+          const childNode = createFromSpec(childSpec);
+          elNode.appendChild(childNode);
+        });
+      }
+
+      return elNode;
+    };
+
+    _ctx.forEach(spec => {
+      const node = createFromSpec(spec);
+      fragment.appendChild(node);
     });
 
     this.root.appendChild(fragment); // append all elements at once
