@@ -21,12 +21,12 @@ Read them [here](https://marshallovski.github.io/fiple/docs/). The docs are also
 *creating an h1 element with "Hello, World!"*
 
 ```js
-fiple.render(
-  [{
+fiple.render([
+  {
     elem: 'h1',
-    content: 'Hello, World!'
-  }]
-);
+    content: 'Hello, World
+  }
+]);
 ```
 
 *creating a small page, with classes, inline styles, container, title, text and colored link*
@@ -68,7 +68,7 @@ await fiple.render([
                     }
                 ]
             }
-        ]);
+]);
 ```
 
 # TODO:
