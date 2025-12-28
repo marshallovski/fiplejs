@@ -13,6 +13,9 @@ Mini library for creating websites
 * Applying classes, IDs to elements
 * **and more!**
 
+# Docs
+Read them [here](https://marshallovski.github.io/fiple/docs/). The docs are also powered by fiple.js!
+
 # Examples
 *creating an h1 element with "Hello, World!"*
 
